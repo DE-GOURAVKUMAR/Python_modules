@@ -52,12 +52,27 @@ class Category:
             return False
         else:
             return True
+    def total_deposit(self):
+        total = 0
+        for i in self.ledger:
+             if i['description'] == 'deposit' or i['amount'] > 0:
+                 total += i['amount']
+        return total
 def create_spend_chet(categories: list):
     print("Percentage spent by category")
+    for _ in range(100, -1, -10):
+        for l in range(len(categories)):
+            a =  categories[l].total_deposit() - categories[l].get_balance()
+            b = categories[l].total_deposit()
+            
+            if ( a // b ) * 100 <= _:
+                print(f"{_:>3}|  o")
+    
 
 food = Category("food")
 food.deposit(900, 'deposit')
 food.withdraw(45.67, 'milk, cereal, eggs, bacon, bread')
 cloth = Category("Clothing")
 food.transfer(50, cloth)
-print(food)
+print(food.get_balance())
+create_spend_chet([food, cloth])
